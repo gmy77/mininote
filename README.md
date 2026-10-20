@@ -29,6 +29,23 @@ nasm -f bin mininote.asm -o mininote.exe
 
 Su Windows NASM si installa con `scoop install nasm`. L'eseguibile già compilato è incluso nel repository.
 
+## "Windows ha protetto il PC": perché compare e perché è normale
+
+Al primo avvio di `mininote.exe` scaricato da GitHub, Windows può mostrare la schermata blu di **Microsoft Defender SmartScreen**. **Non vuol dire che sia stato trovato un virus.** SmartScreen non analizza cosa fa il programma, valuta la sua **reputazione**:
+
+- **Il file non è firmato.** Una firma digitale (code signing) costa da qualche centinaio di euro all'anno in su ed è pensata per le aziende, non per un esperimento da 2,5 KB
+- **Il file è nuovo e poco scaricato.** SmartScreen si fida dei programmi che migliaia di persone hanno già eseguito senza problemi. Un exe appena pubblicato parte da zero, anche se firmato
+- **Il file arriva da Internet.** Il browser lo segna come "scaricato dal web" (Mark of the Web), e questo fa scattare il controllo
+
+Per avviarlo comunque: clicca **"Ulteriori informazioni"**, poi **"Esegui comunque"**. Basta farlo una volta.
+
+Se preferisci non fidarti dell'exe (ed è giusto chiederselo), hai due alternative:
+
+- **Compilalo tu.** Il sorgente è tutto qui, leggibile e commentato. Con NASM ottieni lo stesso file da 2560 byte, e un exe compilato sul tuo PC non ha il segno "scaricato dal web", quindi SmartScreen non interviene
+- **Controllalo.** Puoi caricarlo su [VirusTotal](https://www.virustotal.com/), oppure togliere il segno di provenienza con *tasto destro → Proprietà → Sblocca*, dopo esserti fidato
+
+Qualche antivirus potrebbe anche segnalarlo per **euristica**: un eseguibile così piccolo, con l'header scritto a mano e le funzioni risolte a runtime, somiglia per forma ai trucchi usati dai malware compressi. È un falso positivo tipico dei programmi in assembly "sizecoding". Il codice fa solo quello che vedi nel sorgente: apre e salva i file di testo che scegli tu.
+
 ## Come ci sta in 2,5 KB
 
 - **Header PE scritto a mano** nel sorgente, byte per byte
